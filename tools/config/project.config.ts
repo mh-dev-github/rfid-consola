@@ -1,7 +1,8 @@
 import { join } from 'path';
+import { argv } from 'yargs';
 
 import { SeedConfig } from './seed.config';
-// import { ExtendPackages } from './seed.config.interfaces';
+import { ExtendPackages } from './seed.config.interfaces';
 
 /**
  * This class extends the basic seed configuration, allowing for project specific overrides. A few examples can be found
@@ -10,18 +11,49 @@ import { SeedConfig } from './seed.config';
 export class ProjectConfig extends SeedConfig {
 
   PROJECT_TASKS_DIR = join(process.cwd(), this.TOOLS_DIR, 'tasks', 'project');
+  /** Personalización deploy as war*/
+  WAR_DEST = `${this.DIST_DIR}/`;
+  WAR_APP_CONTEXT = `rfid-consola`;
+
+  /** Personalización font-awesome*/
+  /** Personalización primeng*/
+  PRIME_NG_THEME = 'omega';
+  FONTS_DEST = `${this.APP_DEST}/fonts`;
+  FONTS_SRC = [
+    `node_modules/font-awesome/fonts/**`,
+    `node_modules/primeng/resources/themes/${this.PRIME_NG_THEME}/fonts/**`,
+  ];
+
+  THEME_FONTS_DEST = `${this.APP_DEST}/css/fonts`;
+  THEME_FONTS_SRC = [
+    `node_modules/primeng/resources/themes/${this.PRIME_NG_THEME}/fonts/**`,
+  ];
+
+  CSS_IMAGE_DEST = `${this.CSS_DEST}/images`;
+  CSS_IMAGE_SRC = [
+    `node_modules/primeng/resources/themes/${this.PRIME_NG_THEME}/images/**`
+  ];
 
   constructor() {
     super();
     // this.APP_TITLE = 'Put name of your app here';
-    // this.GOOGLE_ANALYTICS_ID = 'Your site's ID';
+    this.GOOGLE_ANALYTICS_ID = '';
+    /** Personalización aplicación*/
+    this.APP_TITLE = 'RFID Consola';
+    /** Personalización deploy as war*/
+    this.APP_BASE = argv['base'] || `/${this.WAR_APP_CONTEXT}/`;
 
     /* Enable typeless compiler runs (faster) between typed compiler runs. */
     // this.TYPED_COMPILE_INTERVAL = 5;
 
-    // Add `NPM` third-party libraries to be injected/bundled.
+    /** Personalización font-awesome*/
+    /** Personalización primeng*/
+    /** Personalización chart.js*/
     this.NPM_DEPENDENCIES = [
       ...this.NPM_DEPENDENCIES,
+      { src: 'font-awesome/css/font-awesome.min.css', inject: true },
+      { src: 'primeng/resources/primeng.min.css', inject: true },
+      { src: `primeng/resources/themes/${this.PRIME_NG_THEME}/theme.css`, inject: true },
       // {src: 'jquery/dist/jquery.min.js', inject: 'libs'},
       // {src: 'lodash/lodash.min.js', inject: 'libs'},
     ];
@@ -43,13 +75,15 @@ export class ProjectConfig extends SeedConfig {
     ];
 
     // Add packages (e.g. ng2-translate)
-    // const additionalPackages: ExtendPackages[] = [{
-    //   name: 'ng2-translate',
-    //   // Path to the package's bundle
-    //   path: 'node_modules/ng2-translate/bundles/ng2-translate.umd.js'
-    // }];
-    //
-    // this.addPackagesBundles(additionalPackages);
+    const additionalPackages: ExtendPackages[] = [{
+      name: 'primeng',
+      path: 'node_modules/primeng',
+      packageMeta: {
+        defaultExtension: 'js'
+      }
+    }];
+
+    this.addPackagesBundles(additionalPackages);
 
     /* Add proxy middleware */
     // this.PROXY_MIDDLEWARE = [

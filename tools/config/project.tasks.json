@@ -3,6 +3,25 @@
     "tslint",
     "build.test",
     "karma.run"
+  ],
+  "build.prod.war": [
+    "initialize",
+    "check.tools",
+    "clean.prod",
+    "tslint",
+    "build.assets.prod",
+    "build.fonts",
+    "build.theme_fonts",
+    "build.css_images",
+    "build.html_css",
+    "copy.prod",
+    "build.js.prod",
+    "build.bundles",
+    "build.bundles.app",
+    "minify.bundles",
+    "build.index.prod",
+    "sw.manifest.static",
+    "minify.index",
+    "build.war"
   ]
 }
-
