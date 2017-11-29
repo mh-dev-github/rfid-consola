@@ -69,3 +69,8 @@ button {
 button:hover {
   background-color: #28739e;
 }
+
+.rfid-readonly {
+  border-bottom:1px solid #D5D5D5;
+  vertical-align: bottom;
+}
